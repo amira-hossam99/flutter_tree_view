@@ -147,7 +147,9 @@ class _TreeViewState extends State<TreeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
+    return
+      Container(color: Colors.red)
+      /*Scrollbar(
       isAlwaysShown: true,
       controller: horizontalScrollController,
       child: ListView(
@@ -177,7 +179,7 @@ class _TreeViewState extends State<TreeView> {
             ),
           )
           ]),
-    );
+    )*/;
   }
 
   Widget _nodeBuilder(BuildContext context, int index) {
