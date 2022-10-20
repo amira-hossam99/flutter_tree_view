@@ -152,6 +152,7 @@ class _TreeViewState extends State<TreeView> {
       child: Directionality(
         textDirection: widget.theme.direction,
         child: ListView.custom(
+          scrollDirection: Axis.horizontal,
           controller: widget.scrollController,
           padding: widget.padding,
           shrinkWrap: widget.shrinkWrap,
