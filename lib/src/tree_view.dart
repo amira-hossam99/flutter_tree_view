@@ -115,6 +115,7 @@ class TreeView extends StatefulWidget {
 
 class _TreeViewState extends State<TreeView> {
   TreeViewController get controller => widget.controller;
+  ScrollController horizontalScrollController = ScrollController();
 
   void _rebuild() {
     if (mounted) {
@@ -146,28 +147,36 @@ class _TreeViewState extends State<TreeView> {
 
   @override
   Widget build(BuildContext context) {
-    return _TreeViewScope(
-      controller: controller,
-      theme: widget.theme,
-      child: Directionality(
-        textDirection: widget.theme.direction,
-        child: ListView.custom(
+    return Scrollbar(
+      isAlwaysShown: true,
+      controller: horizontalScrollController,
+      child: ListView(
+          shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          controller: widget.scrollController,
-          padding: widget.padding,
-          shrinkWrap: widget.shrinkWrap,
-          itemExtent: widget.nodeHeight,
-          childrenDelegate: SliverChildBuilderDelegate(
-            _nodeBuilder,
-            childCount: controller.visibleNodes.length,
-            findChildIndexCallback: (Key key) {
-              final index =
-                  controller.indexOf((key as ValueKey<TreeNode>).value);
-              return index < 0 ? null : index;
-            },
-          ),
-        ),
-      ),
+          controller: horizontalScrollController,
+          children: [ _TreeViewScope(
+            controller: controller,
+            theme: widget.theme,
+            child: Directionality(
+              textDirection: widget.theme.direction,
+              child: ListView.custom(
+                controller: widget.scrollController,
+                padding: widget.padding,
+                shrinkWrap: widget.shrinkWrap,
+                itemExtent: widget.nodeHeight,
+                childrenDelegate: SliverChildBuilderDelegate(
+                  _nodeBuilder,
+                  childCount: controller.visibleNodes.length,
+                  findChildIndexCallback: (Key key) {
+                    final index =
+                    controller.indexOf((key as ValueKey<TreeNode>).value);
+                    return index < 0 ? null : index;
+                  },
+                ),
+              ),
+            ),
+          )
+          ]),
     );
   }
 
